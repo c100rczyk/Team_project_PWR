@@ -2,3 +2,5 @@
 .idea
 data
 build
+.ipynb_checkpoints
+
