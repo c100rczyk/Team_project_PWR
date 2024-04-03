@@ -1,5 +1,6 @@
 import tensorflow as tf
-from main import target_shape
+
+target_shape = (200, 200)
 
 
 def preprocess_image(filename):
