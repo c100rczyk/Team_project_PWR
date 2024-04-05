@@ -4,7 +4,7 @@ import os
 
 
 class TripletGenerator:
-    def __init__(self, datasetPath):
+    def __init__(self, datasetPath, max_triplets):
         # create an empty list which will contain the subdirectory
         # names of the `dataset` directory with more than one image
         # in it
@@ -21,6 +21,7 @@ class TripletGenerator:
                 self.fruitNames.append(absoluteFolderName)
         # create a dictionary of people name to their image names
         self.allFruits = self.generate_all_fruits_dict()
+        self.max_triplets = max_triplets
 
     def generate_all_fruits_dict(self):
         # create an empty dictionary that will be populated with
@@ -39,15 +40,13 @@ class TripletGenerator:
 
     def get_next_element(self):
         # create an infinite generator
-        while True:
-            # draw a person at random which will be our anchor and
-            # positive person
+        for _ in range(0, self.max_triplets):
+            # draw an image at random which will be our anchor and
             anchorName = random.choice(self.fruitNames)
-            # copy the list of people names and remove the anchor
-            # from the list
+            # copy the list of images names and remove the anchor from the list
             temporaryNames = self.fruitNames.copy()
             temporaryNames.remove(anchorName)
-            # draw a person at random from the list of people without
+            # draw an image at random from the list of images without
             # the anchor, which will act as our negative sample
             negativeName = random.choice(temporaryNames)
             # draw two images from the anchor folder without replacement
