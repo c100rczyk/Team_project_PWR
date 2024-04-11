@@ -3,4 +3,4 @@
 data
 build
 .ipynb_checkpoints
-distance/__pycache__/
+__pycache__
