@@ -2,7 +2,7 @@ import tensorflow as tf
 import keras
 
 
-class CL_Euclidean_Distance:
+class EuclideanDistance:
     """
     Znalezienie odległości euklidesowej pomiędzy dwoma wektorami:
 
@@ -12,6 +12,7 @@ class CL_Euclidean_Distance:
     Returns:
         Tensor containing euclidean distance pomiędzy podanymi wektorami
     """
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 

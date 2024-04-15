@@ -4,15 +4,15 @@ from utilities.data_reader import DataReader
 
 
 class TripletGenerator:
-    def __init__(self, dataset_path, max_triplets):
-        self.max_triplets = max_triplets
+    def __init__(self, dataset_path, max_iterations):
+        self.max_iterations = max_iterations
         self.types_of_products = DataReader.read_types_of_products(dataset_path)
         self.image_classes = DataReader.generate_images_classes_dict(
             self.types_of_products
         )
 
     def get_next_element(self) -> tuple[int]:
-        for _ in range(0, self.max_triplets):
+        for _ in range(0, self.max_iterations):
             anchor_product = random.choice(self.types_of_products)
             temporary_products_names = self.types_of_products.copy()
             temporary_products_names.remove(anchor_product)
