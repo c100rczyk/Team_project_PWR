@@ -1,5 +1,6 @@
 import tensorflow as tf
 
+
 def loss(margin=1):
     """
     Arguments:
