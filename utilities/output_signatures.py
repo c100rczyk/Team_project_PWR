@@ -15,3 +15,8 @@ class OutputSignature:
         tf.TensorSpec(shape=(), dtype=tf.string),
         tf.TensorSpec(shape=(), dtype=tf.string),
     )
+
+    representatives: TypeSpec = (
+        tf.TensorSpec(shape=(), dtype=tf.string),
+        tf.TensorSpec(shape=(), dtype=tf.string),
+    )
