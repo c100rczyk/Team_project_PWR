@@ -27,7 +27,7 @@ class Mapper:
         img2 = self._decode_and_resize(image_path2)
         return (img1, img2), label
 
-    def map(self, label, image_path):
+    def map_single_product(self, label, image_path):
         return label, self._decode_and_resize(image_path)
 
     def __call__(self, *args, method: str):
