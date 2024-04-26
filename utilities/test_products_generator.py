@@ -7,7 +7,6 @@ class TestProductsGenerator:
         self.image_classes = DataReader.generate_images_classes_dict(
             self.types_of_products
         )
-        print(self.image_classes)
 
     def get_next_element(self):
         for label, products in self.image_classes.items():
