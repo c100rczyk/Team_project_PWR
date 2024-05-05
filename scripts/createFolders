@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Check if user provided a path argument
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <path>"
+    exit 1
+fi
+
+# Check if the path exists
+if [ ! -d "$1" ]; then
+    echo "Error: Path $1 does not exist or is not a directory."
+    exit 1
+fi
+
+# List all directories in the given path
+echo "Directories in $1:"
+find "$1" -maxdepth 1 -type d -exec basename {} \;
+#!/bin/bash
+
+# Check if user provided source and destination paths
+if [ $# -ne 2 ]; then
+    echo "Usage: $0 <source_path> <destination_path>"
+    exit 1
+fi
+
+# Check if the source path exists
+if [ ! -d "$1" ]; then
+    echo "Error: Source path $1 does not exist or is not a directory."
+    exit 1
+fi
+
+# Create destination directory if it doesn't exist
+if [ ! -d "$2" ]; then
+    echo "Creating destination directory $2"
+    mkdir -p "$2"
+fi
+
+# List all directories in the source path and create them in the destination path
+echo "Creating directories in $2 based on $1:"
+find "$1" -maxdepth 1 -type d -exec basename {} \; | while read -r dir; do
+    echo "Creating directory: $2/$dir"
+    mkdir -p "$2/$dir"
+done
