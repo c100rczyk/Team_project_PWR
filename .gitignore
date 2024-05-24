@@ -4,3 +4,4 @@ data
 build
 .ipynb_checkpoints
 __pycache__
+trained_models
