@@ -30,6 +30,7 @@ class DatasetFactory:
             )
             .batch(batch_size)
         )
+
     def give_paths_to_test(ds_path, max_iterations):
         contr = ContrastiveGenerator(ds_path, max_iterations)
         return contr.image_classes

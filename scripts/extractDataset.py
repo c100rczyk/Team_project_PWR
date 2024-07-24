@@ -72,9 +72,7 @@ def extract_dataset(source_path, training_path, validation_path, test_path):
 
 
 if __name__ == "__main__":
-    source_path = (
-        r"C:\Users\matim\Documents\FruitDataset\archive"  # Source Dataset folder
-    )
+    source_path = r""  # Source Dataset folder
     training_path = r"../data/FruitRecognition/Training"
     validation_path = r"../data/FruitRecognition/Validation"
     test_path = r"../data/FruitRecognition/Test"

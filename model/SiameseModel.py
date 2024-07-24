@@ -2,6 +2,10 @@ from keras import Model
 from keras import metrics
 import tensorflow as tf
 
+"""
+    Source: https://keras.io/examples/vision/siamese_network/
+"""
+
 
 class SiameseModel(Model):
     """The Siamese Network model with a custom training and testing loops.

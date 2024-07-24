@@ -5,7 +5,6 @@ from CL_utilities import loss_function
 from distance.DistanceLayer import DistanceLayer
 from distance.EuclideanDistance import EuclideanDistance
 from model.SiameseModel import SiameseModel
-from keras import optimizers
 
 
 class ModelFactory:
