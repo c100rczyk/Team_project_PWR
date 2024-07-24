@@ -2,6 +2,10 @@ from keras import ops
 import tensorflow as tf
 from keras import layers
 
+"""
+    Source: https://keras.io/examples/vision/siamese_network/
+"""
+
 
 class DistanceLayer(layers.Layer):
     """

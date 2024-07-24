@@ -1,5 +1,9 @@
 import tensorflow as tf
 
+"""
+    Source: https://keras.io/examples/vision/siamese_contrastive/
+"""
+
 
 def loss(margin=1):
     """

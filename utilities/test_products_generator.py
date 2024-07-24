@@ -12,11 +12,3 @@ class TestProductsGenerator:
         for label, products in self.image_classes.items():
             for product in products:
                 yield label, product
-
-
-# if __name__ == "__main__":
-#     test_path = r"..\data\FruitRecognition\Test"
-#     test_generator = TestProductsGenerator(test_path)
-#     for l, p in test_generator.get_next_element():
-#         print(l, p)
-#         # print(l, p)
