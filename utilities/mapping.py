@@ -2,6 +2,10 @@ import tensorflow as tf
 
 
 class Mapper:
+    """
+    Get paths of pairs/triplets
+    Return images of paths that has expected sizes and types
+    """
     def __init__(self, image_size):
         # define the image width and height
         self.imageSize = image_size
