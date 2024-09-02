@@ -1,3 +1,4 @@
+import numpy
 import tensorflow as tf
 
 
@@ -6,14 +7,18 @@ class Mapper:
     Get paths of pairs/triplets
     Return images of paths that has expected sizes and types
     """
+
     def __init__(self, image_size):
         # define the image width and height
         self.imageSize = image_size
 
     def _decode_and_resize(self, image_path):
         # read and decode the image path
-        image = tf.io.read_file(image_path)
-        image = tf.image.decode_jpeg(image, channels=3)
+        if type(image_path) is numpy.ndarray:
+            image = tf.convert_to_tensor(image_path)
+        else:
+            image = tf.io.read_file(image_path)
+            image = tf.image.decode_image(image, channels=3)
         # convert the image data type from uint8 to float32 and then resize
         # the image to the set image size
         image = tf.image.convert_image_dtype(image, dtype=tf.float32)
