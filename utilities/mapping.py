@@ -18,7 +18,7 @@ class Mapper:
             image = tf.convert_to_tensor(image_path)
         else:
             image = tf.io.read_file(image_path)
-            image = tf.image.decode_image(image, channels=3)
+            image = tf.image.decode_jpeg(image, channels=3)
         # convert the image data type from uint8 to float32 and then resize
         # the image to the set image size
         image = tf.image.convert_image_dtype(image, dtype=tf.float32)
