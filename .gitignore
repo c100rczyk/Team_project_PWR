@@ -3,5 +3,7 @@
 data
 build
 .ipynb_checkpoints
-__pycache__
+__pycache__/
 trained_models
+*.pyc
+moje_archiwum
