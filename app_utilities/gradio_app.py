@@ -245,7 +245,7 @@ def capture_and_load_image(object=0):
     return captured_image_np
 
 
-embedding_layer, model = create_triplet_model()
+embedding_layer, model = create_contrastive_model()
 representatives = load_representatives(representatives_path)
 representatives = evaluate_representatives(embedding_layer, representatives)
 
