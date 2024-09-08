@@ -4,3 +4,4 @@ class Product:
         self.image_path = image_path
         self.image = image
         self.embedding = embedding
+        self.image_to_predict = None
