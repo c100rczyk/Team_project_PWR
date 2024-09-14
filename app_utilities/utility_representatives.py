@@ -5,7 +5,7 @@ from utilities.data_reader import DataReader
 from utilities.mapping import Mapper
 import os
 from metrics.Product import Product
-import app_utilities.config as config
+import utilities.config as config
 
 image_size = 224, 224
 margin = 0.5
@@ -35,8 +35,11 @@ def load_representatives(path):
             representatives[lab].append(rep)
     for label, products in representatives.items():
         for product in products:
-            product.image_to_predict = tf.reshape(product.image, shape=(1,) + image_size + (3,))
+            product.image_to_predict = tf.reshape(
+                product.image, shape=(1,) + image_size + (3,)
+            )
     return representatives
+
 
 def add_representatives(image_to_add, label):
     """
@@ -55,12 +58,16 @@ def add_representatives(image_to_add, label):
     """
     rep_add = Product()
     mapper = Mapper(image_size)
-    label_add, image_add = mapper.map_single_product(label=label, image_path=image_to_add)
+    label_add, image_add = mapper.map_single_product(
+        label=label, image_path=image_to_add
+    )
     embedding_add = config.embedding_layer(tf.expand_dims(image_add, axis=0)).numpy()
 
     new_dir = f"{representatives_path}/{label_add}"
-    #dodać sparwdzenie czy nie ma zdjęcia o już istniejącej nazwie
-    image_name = f"{label_add}_{np.random.randint(low=0, high=100000, dtype=np.uint32)}.jpg"
+    # dodać sparwdzenie czy nie ma zdjęcia o już istniejącej nazwie
+    image_name = (
+        f"{label_add}_{np.random.randint(low=0, high=100000, dtype=np.uint32)}.jpg"
+    )
     if not os.path.isdir(new_dir):
         os.mkdir(new_dir)
 

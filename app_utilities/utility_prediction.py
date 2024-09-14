@@ -3,11 +3,12 @@ import numpy as np
 from utilities.mapping import Mapper
 from distance.EuclideanDistance import EuclideanDistance
 from metrics.Metrics import Metrics
-import app_utilities.config as config
+import utilities.config as config
 
 image_size = 224, 224
 margin = 0.5
 representatives_path = r"../data/FruitRecognition/representatives/represent_5"
+
 
 def predict(image):
     """
@@ -51,6 +52,7 @@ def predict(image):
     print(top5_dist, top5_labels)
     return (*top5_labels, *predicted_images)
 
+
 def evaluate_representatives(embedding_layer, representatives):
     """
     Create embedding for all images in representatives
@@ -59,7 +61,7 @@ def evaluate_representatives(embedding_layer, representatives):
     """
     for label, products in representatives.items():
         for product in products:
-            product.embedding = np.asarray(embedding_layer(product.image_to_predict)).astype(
-                "float32"
-            )
+            product.embedding = np.asarray(
+                embedding_layer(product.image_to_predict)
+            ).astype("float32")
     return representatives

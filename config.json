@@ -1,0 +1,24 @@
+{
+  "image_properties": {
+    "image_width": 224,
+    "image_height": 224
+  },
+  "paths": {
+    "training_images": "data/FruitRecognition/Training",
+    "validation_images": "data/FruitRecognition/Validation",
+    "test_images": "data/FruitRecognition/Test",
+    "representatives": "data/FruitRecognition/representatives/represent_5",
+    "model_weights": {
+      "Xception_VegFru_dense_512_256_triplet": "trained_models/Xception_VegFru_dense_512_256_triplet.weights.h5",
+      "VGG16_FruitRecognition_dense_64_16_triplet": "trained_models/VGG16_plus_dense_64_16_triplet.weights.h5",
+      "VGG16_FruitRecognition_dense_512_16_contrastive": "trained_models/VGG16_512_16_kaggle_31tys_6tys_6tys.weights.h5"
+    }
+  },
+  "batch_size": 32,
+  "margin": 0.5,
+  "epochs": 10,
+  "iterations": {
+    "training": 72,
+    "validation": 16
+  }
+}
