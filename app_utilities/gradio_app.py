@@ -1,6 +1,4 @@
 import os.path
-from pathlib import Path
-import cv2
 import gradio as gr
 import tensorflow as tf
 import numpy as np
@@ -8,18 +6,12 @@ import keras
 from keras.src.applications.vgg16 import VGG16
 from utilities.data_reader import DataReader
 from utilities.mapping import Mapper
-from utilities.config import ConfigReader, Config
 from model.model_factory import ModelFactory
 from distance.EuclideanDistance import EuclideanDistance
 from metrics.Product import Product
 from metrics.Metrics import Metrics
-
-config_reader = ConfigReader("config.json")
-config = Config(config_reader.load_config())
-image_size = (
-    config.image_properties.image_height,
-    config.image_properties.image_width,
-)
+from app_utilities.utility_camera import capture_and_load_image
+from app_utilities.app_config import config, image_size
 
 
 def load_representatives(path):
@@ -69,10 +61,17 @@ def add_representatives(images_to_add, label):
     if not label:
         gr.Warning("Please provide a label for your product")
         return
+
     mapper = Mapper(image_size)
     mapped_images = []
-    for image_path in images_to_add:
-        label, image = mapper.map_single_product(label, image_path)
+
+    if images_to_add is None:
+        gr.Warning("Please upload an image")
+        return
+
+    if isinstance(images_to_add, np.ndarray):
+        label, image = mapper.map_from_array(label, images_to_add)
+        print("Mapped from array")
         mapped_images.append(
             Product(
                 label,
@@ -87,6 +86,24 @@ def add_representatives(images_to_add, label):
                 embedding_layer(tf.expand_dims(image, axis=0)).numpy(),
             )
         )
+    else:
+        for image_path in images_to_add:
+            label, image = mapper.map_single_product(label, image_path)
+            print("Mapped from path")
+            mapped_images.append(
+                Product(
+                    label,
+                    os.path.join(
+                        config.paths.representatives,
+                        *[
+                            label,
+                            f"{label}_{np.random.randint(low=0, high=100000, dtype=np.uint32)}",
+                        ],
+                    ),
+                    image,
+                    embedding_layer(tf.expand_dims(image, axis=0)).numpy(),
+                )
+            )
 
     new_dir = os.path.join(config.paths.representatives, label)
     # dodać sparwdzenie czy nie ma zdjęcia o już istniejącej nazwie
@@ -191,7 +208,7 @@ def predict(image):
         gr.Warning("Please upload an image for classification.")
         return *labels_gradio, *images_gradio
     mapper = Mapper(image_size)
-    label, image = mapper.map_single_product("", image)
+    _, image = mapper.map_from_array("", image)
     image = tf.reshape(image, shape=(1,) + image_size + (3,))
     embedding = np.asarray(embedding_layer(image)).astype("float32")
     distances = np.zeros(len(representatives.keys()))
@@ -337,9 +354,8 @@ with gr.Blocks() as app:
         )
     with gr.Row():
         with gr.Column(scale=1):
-            # load_img_btn = gr.Button("Load Image")
-
-            image_to_predict = gr.Image(label="Loaded Image")
+            uploaded_image = gr.Image(label="Loaded Image", sources=["upload"])
+            load_img_camera_btn = gr.Button(value="Load image from camera")
             predict_btn = gr.Button(value="Predict")
 
         with gr.Column(scale=2):
@@ -369,23 +385,33 @@ with gr.Blocks() as app:
 
     with gr.Row():
         with gr.Column():
+            upload_above_image_btn = gr.Button(value="Upload above image")
             new_product_representatives = gr.UploadButton(
-                "Upload images", file_count="multiple", file_types=["image"]
+                "Upload images from disk", file_count="multiple", file_types=["image"]
             )
             label_of_object = gr.Textbox(label="Enter the label for the new product")
         with gr.Column():
-            # add_new_object = gr.Button(value="Add New Object to shop")
             output_info = gr.Textbox(visible=False)
 
-    # load_img_btn.click(fn=capture_and_load_image, inputs=[], outputs=[image_to_predict])
     predict_btn.click(
         predict,
-        inputs=[image_to_predict],
+        inputs=[uploaded_image],
         outputs=prediction_labels + predictions_images,
     )
+
+    load_img_camera_btn.click(
+        capture_and_load_image, inputs=[], outputs=[uploaded_image]
+    )
+
     new_product_representatives.upload(
         add_representatives,
         inputs=[new_product_representatives, label_of_object],
+        outputs=[output_info],
+    )
+
+    upload_above_image_btn.click(
+        add_representatives,
+        inputs=[uploaded_image, label_of_object],
         outputs=[output_info],
     )
 

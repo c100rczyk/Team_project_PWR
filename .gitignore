@@ -7,3 +7,5 @@ __pycache__/
 trained_models
 *.pyc
 moje_archiwum
+.gradio
+*.rar
